@@ -2,6 +2,7 @@ from flask import Flask
 from flask_restful import Api
 
 from resources.user import UserRegister
+from resources.group import Group
 
 app = Flask(__name__)
 
@@ -15,6 +16,9 @@ def create_tables():
     db.create_all()
 
 api.add_resource(UserRegister, '/register')
+
+api.add_resource(Group, '/group', '/group/<int:id>')
+
 
 if __name__ == '__main__':
     from db import db
