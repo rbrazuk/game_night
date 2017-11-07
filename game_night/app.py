@@ -12,8 +12,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'secret'
 api = Api(app)
 
-
-
 @app.before_first_request
 def create_tables():
     db.create_all()
@@ -23,7 +21,11 @@ api.add_resource(UserRegister, '/register')
 api.add_resource(Group, '/group', '/group/<int:id>')
 api.add_resource(GroupList, '/groups')
 
-api.add_resource(Game, '/game', '/game/<int:id>')
+api.add_resource(Game,
+    '/game',
+    '/game/<int:id>',
+    '/user/<int:user_id>/collection'
+    )
 
 
 if __name__ == '__main__':

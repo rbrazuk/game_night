@@ -13,7 +13,7 @@ class UserModel(db.Model):
     email = db.Column(db.String(80))
     password = db.Column(db.String(80))
 
-    collection = db.relationship('GameModel', secondary=user_game, backref='users')
+    collection = db.relationship('GameModel', secondary=user_game, backref=db.backref('users'), lazy='dynamic')
 
     def __init__(self, username, email, password):
         self.username = username
@@ -22,6 +22,10 @@ class UserModel(db.Model):
 
     def save_to_db(self):
         db.session.add(self)
+        db.session.commit()
+
+    def save_game_to_collection(self, game):
+        game.users.append(self)
         db.session.commit()
 
     @classmethod
