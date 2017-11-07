@@ -13,5 +13,9 @@ class GroupModel(db.Model):
         self.name = name
         self.description = description
 
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
     def json(self):
-        return {'name': self.name, 'description': self.description}
+        return {'id': self.id,'name': self.name, 'description': self.description}

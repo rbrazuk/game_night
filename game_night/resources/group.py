@@ -24,4 +24,10 @@ class Group(Resource):
 
         group = GroupModel(data['name'], data['description'])
 
+        group.save_to_db()
+
         return group.json(), 201
+
+class GroupList(Resource):
+    def get(self):
+        return {'groups': [group.json() for group in GroupModel.query.all()]}
