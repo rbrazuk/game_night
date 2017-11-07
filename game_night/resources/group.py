@@ -22,11 +22,14 @@ class Group(Resource):
         #TODO: check if group with name exists already
         data = Group.parser.parse_args()
 
+        if GroupModel.find_by_name(data['name']):
+            return {'message': 'Group with that name already exists.'}
+
         group = GroupModel(data['name'], data['description'])
 
         group.save_to_db()
 
-        return group.json(), 201
+        return {'message': "Group '{}' created successfully.".format(data['name'])}, 201
 
 class GroupList(Resource):
     def get(self):
