@@ -29,7 +29,7 @@ api.add_resource(GroupList, '/groups')
 
 api.add_resource(Game,
     '/game',
-    '/game/<int:id>',
+    '/game/<int:game_id>',
     '/user/<int:user_id>/collection',
     '/user/<int:user_id>/collection/<int:game_id>'
     )
