@@ -1,5 +1,10 @@
 from db import db
 
+user_game = db.Table('user_game',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
+    db.Column('game_id', db.Integer, db.ForeignKey('games.id'), primary_key=True)
+)
+
 class UserModel(db.Model):
     __tablename__ = 'users'
 
@@ -7,6 +12,8 @@ class UserModel(db.Model):
     username = db.Column(db.String(80))
     email = db.Column(db.String(80))
     password = db.Column(db.String(80))
+
+    collection = db.relationship('GameModel', secondary=user_game, backref='users')
 
     def __init__(self, username, email, password):
         self.username = username
