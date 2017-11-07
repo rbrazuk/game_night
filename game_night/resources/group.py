@@ -13,13 +13,11 @@ class Group(Resource):
     parser.add_argument(
         'description',
         type=str,
-        required=True,
-        help="Name field cannot be blank"
+        #required=True,
+        help="Description field cannot be blank"
     )
 
     def post(self):
-
-        #TODO: check if group with name exists already
         data = Group.parser.parse_args()
 
         if GroupModel.find_by_name(data['name']):
@@ -30,6 +28,20 @@ class Group(Resource):
         group.save_to_db()
 
         return {'message': "Group '{}' created successfully.".format(data['name'])}, 201
+
+    def put(self, id):
+        data = Group.parser.parse_args()
+
+        group = GroupModel.find_by_id(id)
+
+        group.name = data['name']
+
+        if data['description'] is not None:
+            group.description = data['description']
+
+        group.save_to_db()
+
+        return group.json()
 
 class GroupList(Resource):
     def get(self):
