@@ -6,7 +6,7 @@ class GameModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
 
-    def __init__(self, name)
+    def __init__(self, name):
         self.name = name
 
     def save_to_db(self):
@@ -18,8 +18,12 @@ class GameModel(db.Model):
         db.session.commit()
 
     @classmethod
+    def find_by_name(cls, name):
+        return cls.query.filter_by(name=name)
+
+    @classmethod
     def find_by_id(cls, _id):
-        return cls.query.filter_by(id =_id)
+        return cls.query.filter_by(id =_id).first()
 
     def json(self):
         return {'id': self.id, 'name': self.name}

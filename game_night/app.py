@@ -3,6 +3,7 @@ from flask_restful import Api
 
 from resources.user import UserRegister
 from resources.group import Group, GroupList
+from resources.game import Game
 
 app = Flask(__name__)
 
@@ -19,6 +20,8 @@ api.add_resource(UserRegister, '/register')
 
 api.add_resource(Group, '/group', '/group/<int:id>')
 api.add_resource(GroupList, '/groups')
+
+api.add_resource(Game, '/game', '/game/<int:id>')
 
 
 if __name__ == '__main__':
