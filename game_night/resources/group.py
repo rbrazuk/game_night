@@ -13,9 +13,16 @@ class Group(Resource):
     parser.add_argument(
         'description',
         type=str,
-        #required=True,
         help="Description field cannot be blank"
     )
+
+    def get(self, id):
+        group = GroupModel.find_by_id(id)
+
+        if group:
+            return group.json()
+
+        return {'message': 'Item with that id not found.'}
 
     def post(self):
         data = Group.parser.parse_args()
@@ -42,6 +49,14 @@ class Group(Resource):
         group.save_to_db()
 
         return group.json()
+
+    def delete(self, id):
+        group = GroupModel.find_by_id(id)
+
+        if group:
+            group.delete_from_db()
+            return {'message': 'Item deleted!'}
+        return {'message': 'Item with that id not found.'}
 
 class GroupList(Resource):
     def get(self):
