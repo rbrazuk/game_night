@@ -55,8 +55,8 @@ class Group(Resource):
 
         if group:
             group.delete_from_db()
-            return {'message': 'Item deleted!'}
-        return {'message': 'Item with that id not found.'}
+            return {'message': 'Group deleted!'}
+        return {'message': 'Group with that id not found.'}
 
 class GroupList(Resource):
     def get(self):
