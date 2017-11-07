@@ -1,5 +1,10 @@
 from db import db
 
+user_game = db.Table('user_game',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
+    db.Column('game_id', db.Integer, db.ForeignKey('games.id'), primary_key=True)
+)
+
 class UserModel(db.Model):
     __tablename__ = 'users'
 
@@ -7,6 +12,8 @@ class UserModel(db.Model):
     username = db.Column(db.String(80))
     email = db.Column(db.String(80))
     password = db.Column(db.String(80))
+
+    collection = db.relationship('GameModel', secondary=user_game, backref=db.backref('users'), lazy='dynamic')
 
     def __init__(self, username, email, password):
         self.username = username
@@ -16,6 +23,17 @@ class UserModel(db.Model):
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
+
+    def save_game_to_collection(self, game):
+        game.users.append(self)
+        db.session.commit()
+
+    def remove_game_from_collection(self, game):
+        game.users.remove(self)
+        db.session.commit()
+
+    def json(self):
+        return {'username': self.username, 'collection': [game.json() for game in self.collection.all()]}
 
     @classmethod
     def find_by_username(cls, username):

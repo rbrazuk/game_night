@@ -33,3 +33,9 @@ class UserRegister(Resource):
         user.save_to_db()
 
         return {'message': "User '{}' created successfully".format(data['username'])}, 201
+
+class User(Resource):
+    def get(self, user_id):
+        user = UserModel.find_by_id(user_id)
+
+        return user.json()
