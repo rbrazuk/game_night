@@ -28,5 +28,11 @@ class Game(Resource):
 
         return game.json()
 
-    def delete(self):
-        pass
+    def delete(self, id):
+        game = GameModel.find_by_id(id)
+
+        if game:
+            game.delete_from_db()
+            return {'message': 'Game deleted!'}
+
+        return {'message': 'Game with that ID not found.'}
