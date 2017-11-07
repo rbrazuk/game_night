@@ -1,9 +1,9 @@
 from flask import Flask
 from flask_restful import Api
 
-from resources.user import UserRegister
-from resources.group import Group, GroupList
 from resources.game import Game
+from resources.user import UserRegister, User
+from resources.group import Group, GroupList
 
 app = Flask(__name__)
 
@@ -18,11 +18,21 @@ def create_tables():
 
 api.add_resource(UserRegister, '/register')
 
-api.add_resource(Group, '/group', '/group/<int:id>')
+api.add_resource(User,'/user/<int:user_id>')
+
+api.add_resource(Group,
+    '/group',
+    '/group/<int:id>'
+    )
+
 api.add_resource(GroupList, '/groups')
 
-api.add_resource(Game, '/game', '/game/<int:id>')
-
+api.add_resource(Game,
+    '/game',
+    '/game/<int:game_id>',
+    '/user/<int:user_id>/collection',
+    '/user/<int:user_id>/collection/<int:game_id>'
+    )
 
 if __name__ == '__main__':
     from db import db
