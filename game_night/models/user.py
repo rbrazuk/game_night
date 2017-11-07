@@ -28,6 +28,13 @@ class UserModel(db.Model):
         game.users.append(self)
         db.session.commit()
 
+    def remove_game_from_collection(self, game):
+        game.users.remove(self)
+        db.session.commit()
+
+    def json(self):
+        return {'username': self.username, 'collection': [game.json() for game in self.collection.all()]}
+
     @classmethod
     def find_by_username(cls, username):
         return cls.query.filter_by(username=username).first()

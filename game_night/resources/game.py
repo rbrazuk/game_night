@@ -33,15 +33,14 @@ class Game(Resource):
 
         user.save_game_to_collection(game)
 
-
-
         return game.json()
 
-    def delete(self, id):
-        game = GameModel.find_by_id(id)
+    def delete(self, user_id, game_id):
+        game = GameModel.find_by_id(game_id)
+        user = UserModel.find_by_id(user_id)
 
-        if game:
-            game.delete_from_db()
-            return {'message': 'Game deleted!'}
+        if game and user:
+            user.remove_game_from_collection(game)
+            return {'message': 'Game removed from collection!'}
 
         return {'message': 'Game with that ID not found.'}
