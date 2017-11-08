@@ -37,5 +37,6 @@ class UserRegister(Resource):
 class User(Resource):
     def get(self, user_id):
         user = UserModel.find_by_id(user_id)
-
-        return user.json()
+        if user:
+            return user.json()
+        return {'message': 'User not found!'}, 404
