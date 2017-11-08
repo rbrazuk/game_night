@@ -27,7 +27,8 @@ class GroupModel(db.Model):
         db.session.commit()
 
     def add_member(self, user):
-        pass
+        self.members.append(user)
+        db.session.commit()
 
     @classmethod
     def find_by_name(cls, name):

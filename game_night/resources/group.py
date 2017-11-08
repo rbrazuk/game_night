@@ -72,6 +72,7 @@ class GroupMember(Resource):
         if group:
              if user:
                  group.add_member(user)
+                 return {'message': "User '{}' added to '{}'".format(user.username, group.name)}, 201
              else:
                  return {'message': 'User with that ID not found.'}
 
