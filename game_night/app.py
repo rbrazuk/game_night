@@ -22,7 +22,8 @@ api.add_resource(User,'/user/<int:user_id>')
 
 api.add_resource(Group,
     '/group',
-    '/group/<int:id>'
+    '/group/<int:id>',
+    '/group/<int:group_id>/members/<int:user_id>'
     )
 
 api.add_resource(GroupList, '/groups')

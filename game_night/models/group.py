@@ -11,7 +11,7 @@ class GroupModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     description = db.Column(db.String(255))
-    members = db.relationship('UserModel', secondary=group_user, backref=db.backref('groups'), lazy=dynamic)
+    members = db.relationship('UserModel', secondary=group_user, backref=db.backref('groups'), lazy='dynamic')
 
 
     def __init__(self, name, description):
@@ -36,4 +36,8 @@ class GroupModel(db.Model):
 
 
     def json(self):
-        return {'id': self.id,'name': self.name, 'description': self.description}
+        return {'id': self.id,
+            'name': self.name,
+             'description': self.description,
+             'members': [user.json() for user in self.members.all()]
+             }
