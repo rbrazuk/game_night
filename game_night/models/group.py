@@ -1,13 +1,18 @@
 from db import db
 
+group_user = db.Table('group_user',
+    db.Column('group_id', db.Integer, db.ForeignKey('groups.id'), primary_key=True),
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True)
+)
+
 class GroupModel(db.Model):
     __tablename__ = 'groups'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     description = db.Column(db.String(255))
+    members = db.relationship('UserModel', secondary=group_user, backref=db.backref('groups'), lazy=dynamic)
 
-    #members = db.relationship('UserModel', lazy='dynamic')
 
     def __init__(self, name, description):
         self.name = name
