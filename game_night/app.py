@@ -3,7 +3,7 @@ from flask_restful import Api
 
 from resources.game import Game
 from resources.user import UserRegister, User
-from resources.group import Group, GroupList
+from resources.group import Group, GroupList, GroupMember
 
 app = Flask(__name__)
 
@@ -25,6 +25,8 @@ api.add_resource(Group,
     '/group/<int:id>',
     '/group/<int:group_id>/members/<int:user_id>'
     )
+
+api.add_resource(GroupMember, '/groups/<int:group_id>/members/<int:user_id>')
 
 api.add_resource(GroupList, '/groups')
 

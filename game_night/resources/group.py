@@ -1,6 +1,7 @@
 import sqlite3
 from flask_restful import Resource, reqparse
 from models.group import GroupModel
+from models.user import UserModel
 
 class Group(Resource):
     parser = reqparse.RequestParser()
@@ -61,3 +62,22 @@ class Group(Resource):
 class GroupList(Resource):
     def get(self):
         return {'groups': [group.json() for group in GroupModel.query.all()]}
+
+
+class GroupMember(Resource):
+    def post(self, group_id, user_id):
+        group = GroupModel.find_by_id(group_id)
+        user = UserModel.find_by_id(user_id)
+
+        if group:
+             if user:
+                 group.add_member(user)
+             else:
+                 return {'message': 'User with that ID not found.'}
+
+
+        return {'message': 'Group with that ID not found.'}
+
+    def delete(self):
+        # Remove a user from a group
+        pass
