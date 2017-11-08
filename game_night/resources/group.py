@@ -35,7 +35,7 @@ class Group(Resource):
 
         group.save_to_db()
 
-        return {'message': "Group '{}' created successfully.".format(data['name'])}, 201
+        return group.json(), 201
 
     def put(self, id):
         data = Group.parser.parse_args()
@@ -76,9 +76,17 @@ class GroupMember(Resource):
              else:
                  return {'message': 'User with that ID not found.'}
 
-
         return {'message': 'Group with that ID not found.'}
 
-    def delete(self):
-        # Remove a user from a group
-        pass
+    def delete(self, group_id, user_id):
+        group = GroupModel.find_by_id(group_id)
+        user = UserModel.find_by_id(user_id)
+
+        if group:
+            if user:
+                group.remove_member(user)
+                return {'message': "User '{}' removed from '{}'".format(user.username, group.name)}, 200
+            else:
+                return {'message': 'User with that ID not found.'}
+
+        return {'message': 'Group with that ID not found.'}

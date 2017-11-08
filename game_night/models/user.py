@@ -33,7 +33,10 @@ class UserModel(db.Model):
         db.session.commit()
 
     def json(self):
-        return {'username': self.username, 'collection': [game.json() for game in self.collection.all()]}
+        return {
+            'username': self.username,
+            'collection': [game.json() for game in self.collection.all()],
+            'groups': [group.short_json() for group in self.groups]}
 
     def simple_json(self):
         return {'id': self.id, 'username': self.username}

@@ -13,7 +13,6 @@ class GroupModel(db.Model):
     description = db.Column(db.String(255))
     members = db.relationship('UserModel', secondary=group_user, backref=db.backref('groups'), lazy='dynamic')
 
-
     def __init__(self, name, description):
         self.name = name
         self.description = description
@@ -30,6 +29,10 @@ class GroupModel(db.Model):
         self.members.append(user)
         db.session.commit()
 
+    def remove_member(self, user):
+        self.members.remove(user)
+        db.session.commit()
+
     @classmethod
     def find_by_name(cls, name):
         return cls.query.filter_by(name=name).first()
@@ -38,10 +41,12 @@ class GroupModel(db.Model):
     def find_by_id(cls, _id):
         return cls.query.filter_by(id=_id).first()
 
-
     def json(self):
         return {'id': self.id,
             'name': self.name,
              'description': self.description,
              'members': [user.simple_json() for user in self.members.all()]
              }
+
+    def short_json(self):
+        return {'id': self.id, 'name': self.name}
