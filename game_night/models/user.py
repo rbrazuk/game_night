@@ -35,6 +35,9 @@ class UserModel(db.Model):
     def json(self):
         return {'username': self.username, 'collection': [game.json() for game in self.collection.all()]}
 
+    def simple_json(self):
+        return {'id': self.id, 'username': self.username}
+
     @classmethod
     def find_by_username(cls, username):
         return cls.query.filter_by(username=username).first()

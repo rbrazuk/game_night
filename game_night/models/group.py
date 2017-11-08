@@ -43,5 +43,5 @@ class GroupModel(db.Model):
         return {'id': self.id,
             'name': self.name,
              'description': self.description,
-             'members': [user.json() for user in self.members.all()]
+             'members': [user.simple_json() for user in self.members.all()]
              }
