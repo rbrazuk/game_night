@@ -4,6 +4,7 @@ from flask_restful import Api
 from resources.game import Game
 from resources.user import UserRegister, User
 from resources.group import Group, GroupList, GroupMember
+from resources.event import Event
 
 app = Flask(__name__)
 

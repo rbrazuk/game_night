@@ -12,6 +12,7 @@ class GroupModel(db.Model):
     name = db.Column(db.String(80))
     description = db.Column(db.String(255))
     members = db.relationship('UserModel', secondary=group_user, backref=db.backref('groups'), lazy='dynamic')
+    events = db.relationship('EventModel', backref=db.backref('groups'), lazy=True)
 
     def __init__(self, name, description):
         self.name = name
