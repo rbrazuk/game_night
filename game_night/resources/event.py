@@ -70,3 +70,12 @@ class GroupEvent(Resource):
         event.save_to_db()
 
         return event.json()
+
+    def delete(self, event_id):
+        event = EventModel.find_by_id(event_id)
+
+        if event:
+            event.delete_from_db()
+            return {'message': 'Event deleted!'}
+
+        return {'message': 'Event with that ID not found.'}
