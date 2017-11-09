@@ -21,15 +21,15 @@ class Group(Resource):
         group = GroupModel.find_by_id(id)
 
         if group:
-            return group.json()
+            return group.json(), 200
 
-        return {'message': 'Item with that id not found.'}
+        return {'message': 'Item with that id not found.'}, 404
 
     def post(self):
         data = Group.parser.parse_args()
 
         if GroupModel.find_by_name(data['name']):
-            return {'message': 'Group with that name already exists.'}
+            return {'message': 'Group with that name already exists.'}, 400
 
         group = GroupModel(data['name'], data['description'])
 
@@ -49,19 +49,19 @@ class Group(Resource):
 
         group.save_to_db()
 
-        return group.json()
+        return group.json(), 200
 
     def delete(self, id):
         group = GroupModel.find_by_id(id)
 
         if group:
             group.delete_from_db()
-            return {'message': 'Group deleted!'}
-        return {'message': 'Group with that id not found.'}
+            return {'message': 'Group deleted!'}, 200
+        return {'message': 'Group with that id not found.'}, 404
 
 class GroupList(Resource):
     def get(self):
-        return {'groups': [group.json() for group in GroupModel.query.all()]}
+        return {'groups': [group.json() for group in GroupModel.query.all()]}, 200
 
 
 class GroupMember(Resource):
@@ -74,9 +74,9 @@ class GroupMember(Resource):
                  group.add_member(user)
                  return {'message': "User '{}' added to '{}'".format(user.username, group.name)}, 201
              else:
-                 return {'message': 'User with that ID not found.'}
+                 return {'message': 'User with that ID not found.'}, 404
 
-        return {'message': 'Group with that ID not found.'}
+        return {'message': 'Group with that ID not found.'}, 404
 
     def delete(self, group_id, user_id):
         group = GroupModel.find_by_id(group_id)
@@ -87,6 +87,6 @@ class GroupMember(Resource):
                 group.remove_member(user)
                 return {'message': "User '{}' removed from '{}'".format(user.username, group.name)}, 200
             else:
-                return {'message': 'User with that ID not found.'}
+                return {'message': 'User with that ID not found.'}, 404
 
-        return {'message': 'Group with that ID not found.'}
+        return {'message': 'Group with that ID not found.'}, 404
