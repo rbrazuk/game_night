@@ -38,7 +38,6 @@ class EventModel(db.Model):
 
     def json(self):
         return {'id': self.id,
-                'group_id': self.group_id,
                 'name': self.name,
                 'description': self.description,
                 'location': self.location,

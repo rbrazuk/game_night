@@ -52,6 +52,9 @@ class Event(Resource):
 
 
 class GroupEvent(Resource):
+    def get(self, event_id):
+        return EventModel.find_by_id(event_id).json()
+
     def post(self, group_id):
         data = Event.parser.parse_args()
 
