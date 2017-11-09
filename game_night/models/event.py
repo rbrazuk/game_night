@@ -1,5 +1,5 @@
 from db import db
-import datetime
+from datetime import datetime
 
 class EventModel(db.Model):
     __tablename__ = 'events'
@@ -12,12 +12,13 @@ class EventModel(db.Model):
     is_private = db.Column(db.Boolean)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
 
-    def __init__(self, name, description, location, date_time, is_private):
+    def __init__(self, name, description, location, date_time, is_private, group_id):
         self.name = name
         self.description = description
         self.location = location
-        self.date_time = date_time
+        self.date_time = datetime.strptime(date_time, '%Y/%m/%d %H:%M')
         self.is_private = is_private
+        self.group_id = group_id
 
     def save_to_db(self):
         db.session.add(self)
@@ -37,9 +38,10 @@ class EventModel(db.Model):
 
     def json(self):
         return {'id': self.id,
+                'group_id': self.group_id,
                 'name': self.name,
                 'description': self.description,
                 'location': self.location,
-                'date_time': self.date_time,
+                'date_time': self.date_time.strftime('%Y/%m/%d %H:%M'),
                 'is_private': self.is_private
                 }

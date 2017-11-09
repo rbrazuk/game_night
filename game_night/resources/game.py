@@ -26,9 +26,6 @@ class Game(Resource):
         game = GameModel(data['name'])
         user = UserModel.find_by_id(user_id)
 
-        print(data)
-        print(user.username)
-
         game.save_to_db()
 
         user.save_game_to_collection(game)
