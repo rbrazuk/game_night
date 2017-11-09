@@ -27,7 +27,7 @@ class UserRegister(Resource):
         data = UserRegister.parser.parse_args()
 
         if UserModel.find_by_username(data['username']):
-            return {'message': 'User with that name already exists'}
+            return {'message': 'User with that name already exists'}, 400
 
         user = UserModel(**data)
         user.save_to_db()
