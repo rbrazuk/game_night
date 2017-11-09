@@ -16,9 +16,9 @@ class Game(Resource):
         game = GameModel.find_by_id(id)
 
         if game:
-            return game.json()
+            return game.json(), 200
 
-        return {'message': 'Game with that ID not found'}
+        return {'message': 'Game with that ID not found'}, 404
 
     def post(self, user_id):
         data = Game.parser.parse_args()
@@ -30,7 +30,7 @@ class Game(Resource):
 
         user.save_game_to_collection(game)
 
-        return game.json()
+        return game.json(), 201
 
     def delete(self, user_id, game_id):
         game = GameModel.find_by_id(game_id)
@@ -38,6 +38,6 @@ class Game(Resource):
 
         if game and user:
             user.remove_game_from_collection(game)
-            return {'message': 'Game removed from collection!'}
+            return {'message': 'Game removed from collection!'}, 200
 
-        return {'message': 'Game with that ID not found.'}
+        return {'message': 'Game with that ID not found.'}, 404
