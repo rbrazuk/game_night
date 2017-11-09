@@ -79,3 +79,8 @@ class GroupEvent(Resource):
             return {'message': 'Event deleted!'}
 
         return {'message': 'Event with that ID not found.'}
+
+
+class GroupEventList(Resource):
+    def get(self, group_id):
+        return {'events': [event.json() for event in EventModel.query.filter_by(group_id=group_id)]}

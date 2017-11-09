@@ -4,7 +4,7 @@ from flask_restful import Api
 from resources.game import Game
 from resources.user import UserRegister, User
 from resources.group import Group, GroupList, GroupMember
-from resources.event import Event, GroupEvent
+from resources.event import Event, GroupEvent, GroupEventList
 
 app = Flask(__name__)
 
@@ -43,8 +43,10 @@ api.add_resource(Event, '/event')
 api.add_resource(GroupEvent,
     '/events/<int:event_id>',
     '/groups/<int:group_id>/event/<int:event_id>',
-    '/groups/<int:group_id>/events',
+    '/groups/<int:group_id>/event',
     )
+
+api.add_resource(GroupEventList, '/groups/<int:group_id>/events')
 
 if __name__ == '__main__':
     from db import db
