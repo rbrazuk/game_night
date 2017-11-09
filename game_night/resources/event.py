@@ -40,12 +40,12 @@ class Event(Resource):
 
         event.save_to_db()
 
-        return event.json()
+        return event.json(), 201
 
 
 class GroupEvent(Resource):
     def get(self, event_id):
-        return EventModel.find_by_id(event_id).json()
+        return EventModel.find_by_id(event_id).json(), 200
 
     def post(self, group_id):
         data = Event.parser.parse_args()
@@ -61,7 +61,7 @@ class GroupEvent(Resource):
 
         event.save_to_db()
 
-        return event.json()
+        return event.json(), 201
 
     def put(self, event_id):
         data = Event.parser.parse_args()
@@ -86,18 +86,18 @@ class GroupEvent(Resource):
 
         event.save_to_db()
 
-        return event.json()
+        return event.json(), 200
 
     def delete(self, event_id):
         event = EventModel.find_by_id(event_id)
 
         if event:
             event.delete_from_db()
-            return {'message': 'Event deleted!'}
+            return {'message': 'Event deleted!'}, 200
 
-        return {'message': 'Event with that ID not found.'}
+        return {'message': 'Event with that ID not found.'}, 404
 
 
 class GroupEventList(Resource):
     def get(self, group_id):
-        return {'events': [event.json() for event in EventModel.query.filter_by(group_id=group_id)]}
+        return {'events': [event.json() for event in EventModel.query.filter_by(group_id=group_id)]}, 200
