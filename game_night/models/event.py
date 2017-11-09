@@ -1,6 +1,8 @@
 from db import db
 from datetime import datetime
 
+date_format = '%Y/%m/%d %H:%M'
+
 class EventModel(db.Model):
     __tablename__ = 'events'
 
@@ -16,7 +18,7 @@ class EventModel(db.Model):
         self.name = name
         self.description = description
         self.location = location
-        self.date_time = datetime.strptime(date_time, '%Y/%m/%d %H:%M')
+        self.date_time = datetime.strptime(date_time, date_format)
         self.is_private = is_private
         self.group_id = group_id
 
@@ -41,6 +43,6 @@ class EventModel(db.Model):
                 'name': self.name,
                 'description': self.description,
                 'location': self.location,
-                'date_time': self.date_time.strftime('%Y/%m/%d %H:%M'),
+                'date_time': self.date_time.strftime(date_format),
                 'is_private': self.is_private
                 }

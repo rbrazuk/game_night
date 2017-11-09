@@ -38,8 +38,6 @@ api.add_resource(Game,
     '/user/<int:user_id>/collection/<int:game_id>'
     )
 
-api.add_resource(Event, '/event')
-
 api.add_resource(GroupEvent,
     '/events/<int:event_id>',
     '/groups/<int:group_id>/event/<int:event_id>',

@@ -42,15 +42,6 @@ class Event(Resource):
 
         return event.json()
 
-    def get(self):
-        pass
-
-    def put(self):
-        pass
-
-    def delete(self):
-        pass
-
 
 class GroupEvent(Resource):
     def get(self, event_id):
