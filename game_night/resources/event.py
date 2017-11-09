@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask_restful import Resource, reqparse
 from models.event import EventModel
 
@@ -66,6 +67,31 @@ class GroupEvent(Resource):
             data['is_private'],
             group_id
             )
+
+        event.save_to_db()
+
+        return event.json()
+
+    def put(self, event_id):
+        data = Event.parser.parse_args()
+
+        event = EventModel.find_by_id(event_id)
+
+        if event is None:
+            event = EventModel(
+                data['name'],
+                data['description'],
+                data['location'],
+                data['date_time'],
+                data['is_private'],
+                group_id
+            )
+        else:
+            event.name = data['name']
+            event.description = data['description']
+            event.location = data['location']
+            event.date_time = datetime.strptime(data['date_time'], '%Y/%m/%d %H:%M')
+            event.is_private = data['is_private']
 
         event.save_to_db()
 
