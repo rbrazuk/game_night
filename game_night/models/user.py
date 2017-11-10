@@ -12,13 +12,17 @@ class UserModel(db.Model):
     username = db.Column(db.String(80))
     email = db.Column(db.String(80))
     password = db.Column(db.String(80))
+    bio = db.Column(db.String(255))
+    location = db.Column(db.String(80))
 
     collection = db.relationship('GameModel', secondary=user_game, backref=db.backref('users'), lazy='dynamic')
 
-    def __init__(self, username, email, password):
+    def __init__(self, username, email, password, bio, location):
         self.username = username
         self.email = email
         self.password = password
+        self.bio = bio
+        self.location = location
 
     def save_to_db(self):
         db.session.add(self)
@@ -35,6 +39,9 @@ class UserModel(db.Model):
     def json(self):
         return {
             'username': self.username,
+            'email': self.email,
+            'bio': self.bio,
+            'location': self.location,
             'collection': [game.json() for game in self.collection.all()],
             'groups': [group.short_json() for group in self.groups]}
 

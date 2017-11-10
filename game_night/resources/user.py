@@ -21,6 +21,14 @@ class UserRegister(Resource):
         required=True,
         help="Password field cannot be blank"
     )
+    parser.add_argument(
+        'bio',
+        type=str
+    )
+    parser.add_argument(
+        'location',
+        type=str
+    )
 
     def post(self):
         data = UserRegister.parser.parse_args()
