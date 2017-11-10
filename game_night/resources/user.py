@@ -47,3 +47,20 @@ class User(Resource):
         if user:
             return user.json()
         return {'message': 'User not found!'}, 404
+
+    def put(self, user_id):
+        data = UserRegister.parser.parse_args()
+        user = UserModel.find_by_id(user_id)
+
+        if user is None:
+            user = UserModel(**data)
+        else:
+            user.username = data['username']
+            user.email = data['email']
+            user.password = data['password']
+            user.bio = data['bio']
+            user.location = data['location']
+
+        user.save_to_db()
+
+        return user.json(), 200
