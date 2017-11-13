@@ -13,10 +13,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'secret'
 api = Api(app)
 
-@app.before_first_request
-def create_tables():
-    db.create_all()
-
 api.add_resource(UserRegister, '/register')
 
 api.add_resource(User,'/user/<int:user_id>')
