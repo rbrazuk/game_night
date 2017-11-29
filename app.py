@@ -2,6 +2,9 @@ import os
 
 from flask import Flask
 from flask_restful import Api
+from flask_jwt import JWT
+
+from security import authenticate, identity
 
 from resources.game import Game
 from resources.user import UserRegister, User
@@ -14,6 +17,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:/
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'secret'
 api = Api(app)
+
+jwt = JWT(app, authenticate, identity)
 
 api.add_resource(UserRegister, '/register')
 
