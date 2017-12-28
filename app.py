@@ -7,7 +7,7 @@ from flask_jwt import JWT
 from security import authenticate, identity
 
 from resources.game import Game
-from resources.user import UserRegister, User
+from resources.user import UserRegister, User, CurrentUser
 from resources.group import Group, GroupList, GroupMember
 from resources.event import Event, GroupEvent, GroupEventList
 
@@ -21,6 +21,8 @@ api = Api(app)
 jwt = JWT(app, authenticate, identity)
 
 api.add_resource(UserRegister, '/register')
+
+api.add_resource(CurrentUser, '/current_user')
 
 api.add_resource(User,'/user/<int:user_id>')
 

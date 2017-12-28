@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from flask_jwt import JWT, jwt_required, current_identity
 from models.user import UserModel
 
 class UserRegister(Resource):
@@ -64,3 +65,10 @@ class User(Resource):
         user.save_to_db()
 
         return user.json(), 200
+
+class CurrentUser(Resource):
+    @jwt_required()
+    def get(self):
+        print(current_identity.id)
+        return {'user_id': current_identity.id}
+        #return dict(current_identity)
